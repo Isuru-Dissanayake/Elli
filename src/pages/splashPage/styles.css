@@ -36,6 +36,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   height: 400px;
   width: 90%;
   margin-bottom: 50px;
@@ -45,4 +46,9 @@ body {
 .more-games-container {
   font-size: 30px;
   color: #b0b3b8;
+}
+.game-card-title {
+  position: absolute;
+  font-size: 70px;
+  font-weight: bold;
 }
