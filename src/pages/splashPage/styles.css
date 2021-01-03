@@ -2,7 +2,7 @@ body {
   min-height: 100vh;
   background: #18191a;
   color: white;
-  font-family: "Poppins";
+  font-family: "Poppins" !important; 
   margin: 0;
 }
 
@@ -33,11 +33,14 @@ body {
   padding-top: 30px;
 }
 .game-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 400px;
   width: 90%;
   margin-bottom: 50px;
-  background-color: #242526;
   border-radius: 50px;
+  overflow: hidden;
 }
 .more-games-container {
   font-size: 30px;
