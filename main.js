@@ -48,11 +48,21 @@ window.onload = function() {
 };
 
 function onClickGameCard() {
-  const gameDescriptionPage = `<div class="game-description-container">
-                                  <div class="header-container">
-                                    <div class="header-icon" onclick="onClickBackButton()"><i class="fa fa-arrow-left"></i></div>
+  const gameDescriptionPage = `<div class="game-description-container w3-animate-opacity">
+                                <img src="src/assets/images/poosa.png" style="position: absolute; z-index: -1; width: 100%;"/>
+                                <div class="header-container">
+                                  <div class="header-icon" onclick="onClickBackButton()"><i class="fa fa-arrow-left"></i></div>
+                                </div>
+                                <p class="game-description">My 2 months old kitten was killed by a stray dog on 2nd on January, 2021. So I made this game, CATS VS DOGS.</p>
+                                <div class="play-as-container">
+                                  <div class="play-as">Play as</div>
+                                  <div class="play-as-image-div">
+                                    <img id="play-as-cat" src="src/assets/images/cat.png" width="150" class="play-as-image" onclick="onClickPlayAs('CAT')"/>
+                                    <img id="play-as-dog" src="src/assets/images/dog.png" width="150" class="play-as-image" onclick="onClickPlayAs('DOG')"/>
                                   </div>
-                                </div>`
+                                  <div id="play-button" class="play-button">Play</div>
+                                </div>
+                              </div>`
   document.getElementById('visible-container').innerHTML = gameDescriptionPage
 }
 
@@ -72,4 +82,20 @@ function onClickBackButton() {
                     </div>`
   document.getElementById('visible-container').innerHTML = homePage;
   onStart();
+}
+
+function onClickPlayAs(type) {
+  if (type === 'CAT') {
+    document.getElementById('play-as-cat').style.cssText = 'border: solid; border-radius: 75px; border-width: 10px; border-radius: 75px; border-color: #fdba0b;'
+    document.getElementById('play-as-dog').style.border = 'none'
+  } else {
+    document.getElementById('play-as-cat').style.border = 'none'
+    document.getElementById('play-as-dog').style.cssText = 'border: solid; border-radius: 75px; border-width: 10px; border-radius: 75px; border-color: #fdba0b;'
+  }
+  document.getElementById('play-button').style.backgroundColor = '#fdba0b';
+  document.getElementById('play-button').setAttribute( "onClick", `javascript: onClickPlayButton('${type}');` );
+}
+
+function onClickPlayButton(type) {
+  console.log(type);
 }

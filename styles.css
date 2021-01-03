@@ -61,9 +61,53 @@ body {
 }
 .header-container {
   display: flex;
+  padding: 20px;
   width: 100%;
   justify-content: flex-start;
 }
 .header-icon {
   font-size: 40px;
+}
+.game-description{
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  font-size: 30px;
+  color: #b0b3b8;
+}
+.play-as {
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  color: #fdba0b;
+}
+.play-as-image-div {
+  margin: 30px;
+}
+.play-as-image {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 50px;
+  width: 400px;
+  height: 100px;
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+  background-color: #ffde8b;
+  border-radius: 50px;
+}
+.play-as-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 100px;
 }
