@@ -97,5 +97,48 @@ function onClickPlayAs(type) {
 }
 
 function onClickPlayButton(type) {
-  console.log(type);
+  renderGameWindow();
+  gameTimer();
+  renderGameGrid();
 }
+
+function renderGameWindow() {
+  const gameWindow = `<div class="game-container">
+                        <div class="game-header">
+                          <div id='game-time' class="game-time">30</div>
+                          <div class="game-data">
+                            <div class="game-score">100</div>
+                          </div>
+                        </div>
+                        <div id="game-grid" class="game-grid">
+                        </div>
+                      </div>`
+  document.getElementById('visible-container').innerHTML = gameWindow;
+}
+
+function gameTimer() {
+  var timeLeft = 5;
+  var interval = setInterval(function(){
+    timeLeft -= 1;
+    document.getElementById('game-time').innerText = timeLeft;
+    if (timeLeft === 0){
+      clearInterval(interval);
+      document.getElementById('game-time').innerText = 'Game Over';
+    }
+  },1000)
+}
+
+function renderGameGrid() {
+  var gridElementWidth = window.innerWidth * 0.18;
+  var gridHeight = (window.innerHeight - 75) * 0.9;
+  gridElementWidth = parseInt(gridElementWidth);
+  gridHeight = parseInt(gridHeight)
+  numberOfRows = Math.floor(gridHeight/gridElementWidth)
+  var gameGrid = '';
+  for (i = 0; i < 5; i++){
+    gameGrid += `<div class="grid-colum"></div>`
+  }
+  document.getElementById('game-grid').innerHTML = gameGrid;
+}
+
+

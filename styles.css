@@ -111,3 +111,52 @@ body {
   position: absolute;
   bottom: 100px;
 }
+.game-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  padding-top: 10px;
+}
+.game-header {
+  display: flex;
+}
+.game-time {
+  font-size: 50px;
+  color: #ffffff;
+  font-weight: bold;
+}
+.game-score {
+  font-size: 50px;
+  color: #fdba0b;
+  font-weight: bold;
+}
+.game-data {
+  position: absolute;
+  right: 30px;
+}
+.game-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 100%;
+  height: 90%;
+  
+}
+.grid-colum {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+  width: 18%;
+  background-color: rgb(53, 53, 53);
+}
+.grid-element {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  height: 12.5%;
+  background-color: rgb(53, 53, 53);
+}
