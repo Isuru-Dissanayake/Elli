@@ -151,12 +151,10 @@ body {
   margin: auto;
   height: 100%;
   width: 18%;
-  background-color: rgb(53, 53, 53);
 }
 .grid-element {
   display: flex;
   margin: auto;
   width: 100%;
-  height: 12.5%;
   background-color: rgb(53, 53, 53);
 }

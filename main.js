@@ -105,7 +105,7 @@ function onClickPlayButton(type) {
 function renderGameWindow() {
   const gameWindow = `<div class="game-container">
                         <div class="game-header">
-                          <div id='game-time' class="game-time">30</div>
+                          <div id='game-time' class="game-time">Loading</div>
                           <div class="game-data">
                             <div class="game-score">100</div>
                           </div>
@@ -117,28 +117,37 @@ function renderGameWindow() {
 }
 
 function gameTimer() {
-  var timeLeft = 5;
+  var timeLeft = 32;
   var interval = setInterval(function(){
     timeLeft -= 1;
-    document.getElementById('game-time').innerText = timeLeft;
     if (timeLeft === 0){
       clearInterval(interval);
       document.getElementById('game-time').innerText = 'Game Over';
+    } else if(timeLeft > 30) {
+      document.getElementById('game-time').innerText = 'Loading';
+    } else {
+      document.getElementById('game-time').innerText = timeLeft;
     }
   },1000)
 }
 
 function renderGameGrid() {
-  var gridElementWidth = window.innerWidth * 0.18;
-  var gridHeight = (window.innerHeight - 75) * 0.9;
+  var gridElementWidth = document.getElementById('game-grid').offsetWidth * 0.18;
+  var gridHeight = document.getElementById('game-grid').offsetHeight * 0.9;
   gridElementWidth = parseInt(gridElementWidth);
   gridHeight = parseInt(gridHeight)
-  numberOfRows = Math.floor(gridHeight/gridElementWidth)
+  var numberOfRows = Math.floor(gridHeight/gridElementWidth)
   var gameGrid = '';
   for (i = 0; i < 5; i++){
-    gameGrid += `<div class="grid-colum"></div>`
+    gameGrid += `<div class="grid-colum">`
+    for (j = 0; j < numberOfRows; j++){
+      gameGrid += `<div id="grid-element-${i}-${j}" class="grid-element"  style="height: ${gridElementWidth}px;" onclick="onClickGridElement(${i},${j})"></div>`
+    }
+    gameGrid += `</div>`
   }
   document.getElementById('game-grid').innerHTML = gameGrid;
 }
 
-
+function onClickGridElement(i, j) {
+  console.log(i, j);
+}
