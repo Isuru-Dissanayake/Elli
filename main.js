@@ -6,7 +6,7 @@ class HomePage {
     this.playerId = playerId;
     this.playerName = playerName;
     this.playerPic = playerPic;
-    //this.initializePage();
+    this.initializePage();
   }
 
   initializePage(){
