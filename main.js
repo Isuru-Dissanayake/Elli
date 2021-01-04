@@ -6,7 +6,7 @@ class HomePage {
     this.playerId = playerId;
     this.playerName = playerName;
     this.playerPic = playerPic;
-    this.initializePage();
+    //this.initializePage();
   }
 
   initializePage(){
@@ -17,9 +17,42 @@ class HomePage {
   };
 }
 
+//constants and variables
 var playerName = '';
 var playerPic = '';
 var playerId = '';
+
+var playAs = null;
+var opponent = null;
+
+var timeLeft = 31;
+
+var numberOfRows = 0;
+var numberOfcolumns = 5;
+var elementWidth = 0;
+var currentElements = [];
+var stopGame = false;
+var clickedDead = false;
+
+var score = 0;
+var finalScore = 0;
+
+function initializeGameData() {
+  playAs = null;
+  opponent = null;
+
+  timeLeft = 31;
+
+  numberOfRows = 0;
+  numberOfcolumns = 5;
+  elementWidth = 0;
+  currentElements = [];
+  stopGame = false;
+  clickedDead = false;
+
+  score = 0;
+  finalScore = 0;
+} 
 
 function onStart() {
   playerName = FBInstant.player.getName();
@@ -42,7 +75,7 @@ window.onload = function() {
           FBInstant.startGameAsync()
             .then(onStart());
         }
-      }, 100);
+      }, 10);
     }
   );
 };
@@ -53,7 +86,10 @@ function onClickGameCard() {
                                 <div class="header-container">
                                   <div class="header-icon" onclick="onClickBackButton()"><i class="fa fa-arrow-left"></i></div>
                                 </div>
-                                <p class="game-description">My 2 months old kitten was killed by a stray dog on 2nd on January, 2021. So I made this game, CATS VS DOGS.</p>
+                                <p class="game-description">
+                                  My 2 months old kitten was killed by a stray dog on 2nd on January, 2021. So I made this game, CATS VS DOGS.
+                                  Play as Cats or Dogs and kill others.
+                                </p>
                                 <div class="play-as-container">
                                   <div class="play-as">Play as</div>
                                   <div class="play-as-image-div">
@@ -97,17 +133,28 @@ function onClickPlayAs(type) {
 }
 
 function onClickPlayButton(type) {
+  initializeGameData();
+  playAs = type;
+  opponent = type==='CAT'? 'DOG':'CAT';
   renderGameWindow();
-  gameTimer();
   renderGameGrid();
+  gameTimer();
+  getNextElement();
+  removeNextElement();
+}
+
+function onClickQuitGame() {
+  clickedDead = true;
+  stopGame = true;
 }
 
 function renderGameWindow() {
   const gameWindow = `<div class="game-container">
                         <div class="game-header">
+                          <div class="game-header-icon" onclick="onClickQuitGame()"><i class="fa fa-times"></i></div>
                           <div id='game-time' class="game-time">Loading</div>
                           <div class="game-data">
-                            <div class="game-score">100</div>
+                            <div id="game-score" class="game-score">0</div>
                           </div>
                         </div>
                         <div id="game-grid" class="game-grid">
@@ -117,12 +164,16 @@ function renderGameWindow() {
 }
 
 function gameTimer() {
-  var timeLeft = 32;
   var interval = setInterval(function(){
     timeLeft -= 1;
-    if (timeLeft === 0){
+    if (timeLeft === 0 || clickedDead){
       clearInterval(interval);
-      document.getElementById('game-time').innerText = 'Game Over';
+      const gameTimeDiv = document.getElementById('game-time')
+      if (gameTimeDiv){
+        gameTimeDiv.innerText = 'Game Over';
+      }
+      stopGame = true;
+      renderGameOver();
     } else if(timeLeft > 30) {
       document.getElementById('game-time').innerText = 'Loading';
     } else {
@@ -135,8 +186,9 @@ function renderGameGrid() {
   var gridElementWidth = document.getElementById('game-grid').offsetWidth * 0.18;
   var gridHeight = document.getElementById('game-grid').offsetHeight * 0.9;
   gridElementWidth = parseInt(gridElementWidth);
+  elementWidth = gridElementWidth;
   gridHeight = parseInt(gridHeight)
-  var numberOfRows = Math.floor(gridHeight/gridElementWidth)
+  numberOfRows = Math.floor(gridHeight/gridElementWidth)
   var gameGrid = '';
   for (i = 0; i < 5; i++){
     gameGrid += `<div class="grid-colum">`
@@ -148,6 +200,105 @@ function renderGameGrid() {
   document.getElementById('game-grid').innerHTML = gameGrid;
 }
 
+function getRowAndColumn() {
+  const i = Math.floor(Math.random() * Math.floor(numberOfcolumns));
+  const j = Math.floor(Math.random() * Math.floor(numberOfRows));
+  return ({i, j})
+}
+
+function isDeadElement() {
+  const e = Math.floor(Math.random() * Math.floor(10));
+  if (e===8) {
+    return true
+  }else {
+    return false
+  }
+}
+
+function getNextElement() {
+  var interval = setInterval(function(){
+    if ( !stopGame){
+      const { i, j } = getRowAndColumn();
+      const isDead = isDeadElement();
+      currentElements.push({i, j, isDead});
+      if (isDead){
+        document.getElementById(`grid-element-${i}-${j}`).innerHTML = `<img src="src/assets/images/${playAs.toLowerCase()}.png"/ style="height: ${elementWidth}px">`
+      }else {
+        document.getElementById(`grid-element-${i}-${j}`).innerHTML = `<img src="src/assets/images/${opponent.toLowerCase()}.png"/ style="height: ${elementWidth}px">`
+      }
+    }else {
+      clearInterval(interval);
+    }
+  }, 400)
+}
+
+function removeNextElement() {
+  setTimeout(function(){
+    var interval = setInterval(function(){
+      if (currentElements.length > 0){
+        document.getElementById(`grid-element-${currentElements[0].i}-${currentElements[0].j}`).innerHTML = null; 
+        currentElements.shift();
+        if (stopGame){
+          clearInterval(interval);
+        }
+      }
+    }, 400)
+  }, 1200);
+}
+
 function onClickGridElement(i, j) {
-  console.log(i, j);
+  if (!clickedDead){
+    currentElements.forEach(e => {
+      if (e.i === i && e.j === j){
+        document.getElementById(`grid-element-${i}-${j}`).innerHTML = null; 
+        if(e.click) {
+          console.log('clicked before')
+        }else {
+          currentElements[currentElements.indexOf(e)] ={i, j, click: true};
+          if(e.isDead) {
+            console.log('dead!');
+            clickedDead = true;
+            stopGame = true;
+            renderGameOver();
+          }else {
+            score += 20;
+            document.getElementById("game-score").innerText = score;
+          }
+        }
+      }
+    })
+  }
+}
+
+function renderGameOver() {
+  const gameOver = `<div class="game-over-container w3-animate-opacity">
+                      <div class="header-container">
+                        <div class="header-icon" onclick="onClickBackButton()"><i class="fa fa-arrow-left"></i></div>
+                      </div>
+                      <div class="game-detail-container">
+                        <div class="game-over-title">Game Over</div>
+                        <div>
+                          <img class="profile-photo" src="${playerPic}" />
+                        </div>
+                        <div id="final-score" class="score">0</div>
+                        <div class="player-name">${playerName}</div>
+                      </div>
+                      <div class="play-again" onclick="onClickGameCard()">Play Again</div>
+                    </div>`
+  setTimeout(function(){
+    document.getElementById('visible-container').innerHTML = gameOver;
+    scoreCounter();
+  }, 600)
+}
+
+function scoreCounter() {
+  var interval = setInterval(() => {
+    if(finalScore === score) {
+      clearInterval(interval)
+    } else {
+      finalScore  +=1
+      const finalScoreDiv =  document.getElementById('final-score')
+      if (finalScoreDiv){finalScoreDiv.innerText = finalScore}
+    }
+  }, 20);
 }

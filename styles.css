@@ -121,6 +121,14 @@ body {
 }
 .game-header {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.game-header-icon {
+  font-size: 40px;
+  position: absolute;
+  left: 30px;
 }
 .game-time {
   font-size: 50px;
@@ -156,5 +164,51 @@ body {
   display: flex;
   margin: auto;
   width: 100%;
-  background-color: rgb(53, 53, 53);
+}
+.game-over-container {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+}
+.game-detail-container {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  height: 100%;
+  width: 90%;
+  margin-top: 50px;
+}
+.game-over-title {
+  font-size: 50px;
+  font-weight: bold;
+}
+.profile-photo {
+  margin-top: 30px;
+  height: 200px;
+  border-radius: 100px;
+}
+.score {
+  font-size: 50px;
+  margin-top: 30px;
+  font-weight: bold;
+  color: #fdba0b;
+}
+.player-name {
+  font-size: 30px;
+}
+.play-again {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 50px;
+  padding: 15px;
+  padding-left: 50px;
+  padding-right: 50px;
+  font-size: 30px;
+  font-weight: bold;
+  background-color: #fdba0b;
+  border-radius: 50px;
 }
